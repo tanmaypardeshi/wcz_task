@@ -1,5 +1,30 @@
 from apis import api, mysql
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
+
+
+class AddTeam(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('Team Name', type=str, required=True,
+                                   help='No Team Name provided', location='json')
+        self.reqparse.add_argument('Coach Name', type=str, required=True,
+                                   help='No Coach Name provided', location='json')
+        self.reqparse.add_argument('Captain Name', type=str, required=True,
+                                   help='No Captain Name provided', location='json')
+        super(AddTeam, self).__init__()
+
+    def post(self):
+        args = self.reqparse.parse_args()
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute("INSERT INTO team(team_name, coach_name, captain_name) values(%s, %s, %s)",
+                           (args['Team Name'], args['Coach Name'], args['Captain Name']))
+            mysql.connection.commit()
+            return {'status': 'Inserted data successfully'}, 201
+        except Exception as e:
+            return {'error': e.__str__()}, 500
+        finally:
+            cursor.close()
 
 
 class GetAllMatches(Resource):
@@ -17,25 +42,30 @@ class GetAllMatches(Resource):
                 matches = cursor.fetchall()
 
             for i in range(get_match):
-                cursor.execute("SELECT team_name from team where team_id=%s", (matches[i][1],))
-                home_team = cursor.fetchall()
-                cursor.execute("SELECT team_name from team where team_id=%s", (matches[i][2],))
-                away_team = cursor.fetchall()
-                cursor.execute("SELECT team_name from team where team_id=%s", (matches[i][3],))
-                winner_team = cursor.fetchall()
-                cursor.execute(
+                rs = cursor.execute("SELECT team_name from team where team_id=%s", (matches[i][1],))
+                if rs > 0:
+                    home_team = cursor.fetchall()
+                rs = cursor.execute("SELECT team_name from team where team_id=%s", (matches[i][2],))
+                if rs > 0:
+                    away_team = cursor.fetchall()
+                rs = cursor.execute("SELECT team_name from team where team_id=%s", (matches[i][3],))
+                if rs > 0:
+                    winner_team = cursor.fetchall()
+                rs = cursor.execute(
                     "SELECT score, no_of_wickets, isFirstInnings from match_details where match_id=%s and team_id=%s"
                     , (matches[i][0], matches[i][1]))
-                get_match_details1 = cursor.fetchall()
+                if rs > 0:
+                    get_match_details1 = cursor.fetchall()
                 team1 = {
                     'first': get_match_details1[0][2],
                     'wickets': get_match_details1[0][1],
                     'score': get_match_details1[0][0]
                 }
-                cursor.execute(
+                rs = cursor.execute(
                     "SELECT score, no_of_wickets, isFirstInnings from match_details where match_id=%s and team_id=%s"
                     , (matches[i][0], matches[i][2]))
-                get_match_details2 = cursor.fetchall()
+                if rs > 0:
+                    get_match_details2 = cursor.fetchall()
                 team2 = {
                     'first': get_match_details2[0][2],
                     'wickets': get_match_details2[0][1],
@@ -74,22 +104,25 @@ class GetMatch(Resource):
             if rs > 0:
                 match = cursor.fetchall()
             match_id = match[0][0]
-            cursor.execute("SELECT * from team where team_id=%s", (match[0][1],))
-            team1 = get_team_detail(cursor.fetchall(), match_id)
+            rs = cursor.execute("SELECT * from team where team_id=%s", (match[0][1],))
+            if rs > 0:
+                team1 = get_team_detail(cursor.fetchall(), match_id)
             cursor.execute("SELECT * from team where team_id=%s", (match[0][2],))
-            team2 = get_team_detail(cursor.fetchall(), match_id)
+            if rs > 0:
+                team2 = get_team_detail(cursor.fetchall(), match_id)
             cursor.execute("SELECT team_name from team where team_id=%s", (match[0][3],))
-            winner_team = cursor.fetchall()[0][0]
+            if rs > 0:
+                winner_team = cursor.fetchall()[0][0]
             man_of_the_match = match[0][4]
             date_played = match[0][5]
             return {
-                'Match ID': match_id,
-                'Winner Team': winner_team,
-                'Man Of The Match': man_of_the_match,
-                'Date of Match': str(date_played),
-                'team1': team1,
-                'team2': team2
-            }, 200
+                       'Match ID': match_id,
+                       'Winner Team': winner_team,
+                       'Man Of The Match': man_of_the_match,
+                       'Date of Match': str(date_played),
+                       'team1': team1,
+                       'team2': team2
+                   }, 200
         except Exception as e:
             return {
                        "error": e.__str__()
@@ -101,11 +134,13 @@ class GetMatch(Resource):
 def get_team_detail(data, match_id):
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT COUNT(*) from match_details where team_id=%s", (data[0][0], ))
-        matches_played = cursor.fetchall()[0][0]
-        cursor.execute("""SELECT * from match_details
+        rs = cursor.execute("SELECT COUNT(*) from match_details where team_id=%s", (data[0][0],))
+        if rs > 0:
+            matches_played = cursor.fetchall()[0][0]
+        rs = cursor.execute("""SELECT * from match_details
                         where team_id=%s and match_id=%s""", (data[0][0], match_id))
-        data = cursor.fetchall()
+        if rs > 0:
+            data = cursor.fetchall()
         team = {'Team ID': data[0][0],
                 'Team Name': data[0][1],
                 'Coach Name': data[0][2],
@@ -127,3 +162,4 @@ def get_team_detail(data, match_id):
 
 api.add_resource(GetAllMatches, "/getallmatches")
 api.add_resource(GetMatch, "/getmatch/<int:id>")
+api.add_resource(AddTeam, '/addteam')
