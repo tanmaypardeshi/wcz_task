@@ -60,6 +60,7 @@ CREATE TABLE `matches` (
   `away_team` int NOT NULL,
   `winner_team` int NOT NULL,
   `man_of_the_match` varchar(30) NOT NULL,
+  `date_played` date NOT NULL DEFAULT '2020-10-25',
   PRIMARY KEY (`match_id`),
   KEY `home_team` (`home_team`),
   KEY `away_team` (`away_team`),
@@ -76,7 +77,7 @@ CREATE TABLE `matches` (
 
 LOCK TABLES `matches` WRITE;
 /*!40000 ALTER TABLE `matches` DISABLE KEYS */;
-INSERT INTO `matches` VALUES (1,1,3,1,'Mithali Raj'),(2,8,2,2,'Dane van Niekerk');
+INSERT INTO `matches` VALUES (1,1,3,1,'Mithali Raj','2020-10-25'),(2,8,2,2,'Dane van Niekerk','2020-10-23');
 /*!40000 ALTER TABLE `matches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-27 17:46:57
+-- Dump completed on 2020-10-27 19:11:08
