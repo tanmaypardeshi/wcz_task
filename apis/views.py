@@ -106,19 +106,15 @@ def get_team_detail(data, match_id):
         cursor.execute("""SELECT * from match_details
                         where team_id=%s and match_id=%s""", (data[0][0], match_id))
         data = cursor.fetchall()
-        fours = data[0][2]
-        sixes = data[0][3]
-        wickets = data[0][4]
-        score = data[0][5]
         team = {'Team ID': data[0][0],
                 'Team Name': data[0][1],
                 'Coach Name': data[0][2],
                 'Captain Name': data[0][3],
                 'Matches Played': matches_played,
-                'Number of Fours': fours,
-                'Number of Sixes': sixes,
-                'Number of Wickets Lost': wickets,
-                'Score': score
+                'Number of Fours': data[0][2],
+                'Number of Sixes': data[0][3],
+                'Number of Wickets Lost': data[0][4],
+                'Score': data[0][5]
                 }
         return team
     except Exception as e:
