@@ -2,6 +2,7 @@
 
 ## Please load the [cricket.sql](./cricket.sql) file in MySQL using. Make a database named cricket first.
 
+To load the database use:
 `
 mysql -u root -p cricket < cricket.sql
 `
