@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddTeam = () => {
     const classes = useStyles();
+    let dummy = null;
     const [data, setData] = useState({
         "team_name": "",
         "captain_name": "",
@@ -68,7 +69,7 @@ const AddTeam = () => {
         .catch(error => {
             window.alert(error);
         })
-    }, [teams])
+    }, [dummy])
 
     return (
         <Container component="main" maxWidth="md">

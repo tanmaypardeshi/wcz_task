@@ -249,11 +249,11 @@ const AddMatch = () => {
                         <Grid item xs={3}>
                         <TextField
                             autoComplete="fours"
-                            name="home_fours"
+                            name="away_fours"
                             variant="outlined"
                             required
                             fullWidth
-                            id="home_fours"
+                            id="away_fours"
                             label="Enter Fours"
                             onChange={handleChange}
                             autoFocus
@@ -262,11 +262,11 @@ const AddMatch = () => {
                         <Grid item xs={3}>
                         <TextField
                             autoComplete="sixes"
-                            name="home_sixes"
+                            name="away_sixes"
                             variant="outlined"
                             required
                             fullWidth
-                            id="home_sixes"
+                            id="away_sixes"
                             label="Enter Sixes"
                             onChange={handleChange}
                             autoFocus
@@ -275,11 +275,11 @@ const AddMatch = () => {
                         <Grid item xs={3}>
                         <TextField
                             autoComplete="wickets"
-                            name="wickets"
+                            name="away_wickets"
                             variant="outlined"
                             required
                             fullWidth
-                            id="wickets"
+                            id="away_wickets"
                             label="Enter wickets"
                             onChange={handleChange}
                             autoFocus
@@ -288,11 +288,11 @@ const AddMatch = () => {
                         <Grid item xs={3}>
                         <TextField
                             autoComplete="score"
-                            name="score"
+                            name="away_score"
                             variant="outlined"
                             required
                             fullWidth
-                            id="score"
+                            id="away_score"
                             label="Enter score"
                             onChange={handleChange}
                             autoFocus
