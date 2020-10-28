@@ -5,12 +5,12 @@ from flask_restful import Resource, reqparse
 class AddTeam(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('Team Name', type=str, required=True,
-                                   help='No Team Name provided', location='json')
-        self.reqparse.add_argument('Coach Name', type=str, required=True,
-                                   help='No Coach Name provided', location='json')
-        self.reqparse.add_argument('Captain Name', type=str, required=True,
-                                   help='No Captain Name provided', location='json')
+        self.reqparse.add_argument('team_name', type=str, required=True,
+                                   help='No team_name provided', location='json')
+        self.reqparse.add_argument('coach_name', type=str, required=True,
+                                   help='No coach_name provided', location='json')
+        self.reqparse.add_argument('captain_name', type=str, required=True,
+                                   help='No captain_name provided', location='json')
         super(AddTeam, self).__init__()
 
     def post(self):
@@ -18,7 +18,7 @@ class AddTeam(Resource):
         try:
             cursor = mysql.connection.cursor()
             cursor.execute("INSERT INTO team(team_name, coach_name, captain_name) values(%s, %s, %s  )",
-                           (args['Team Name'], args['Coach Name'], args['Captain Name']))
+                           (args['team_name'], args['coach_name'], args['captain_name']))
             mysql.connection.commit()
             return {'status': 'Inserted data successfully'}, 201
         except Exception as e:
@@ -30,31 +30,31 @@ class AddTeam(Resource):
 class AddMatch(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('Home Team', type=dict, required=True,
-                                   help='Home Team Not Provided', location='json')
-        self.reqparse.add_argument('Away Team', type=dict, required=True,
-                                   help='Away Team Not Provided', location='json')
-        self.reqparse.add_argument('Winner', type=str, required=True,
-                                   help='Winner Team Not Provided', location='json')
-        self.reqparse.add_argument('Man of the Match', type=str, required=True,
-                                   help='Man of the Match not provided', location='json')
-        self.reqparse.add_argument('Date', type=str, required=True,
+        self.reqparse.add_argument('home_team', type=dict, required=True,
+                                   help='home_team Not Provided', location='json')
+        self.reqparse.add_argument('away_team', type=dict, required=True,
+                                   help='away_team Not Provided', location='json')
+        self.reqparse.add_argument('winner', type=str, required=True,
+                                   help='winner Team Not Provided', location='json')
+        self.reqparse.add_argument('man_of_the_match', type=str, required=True,
+                                   help='man_of_the_match not provided', location='json')
+        self.reqparse.add_argument('date', type=str, required=True,
                                    help='Date of match not provided', location='json')
         super(AddMatch, self).__init__()
 
     def post(self):
-        team1 = self.reqparse.parse_args().pop('Home Team')
-        team2 = self.reqparse.parse_args().pop('Away Team')
+        team1 = self.reqparse.parse_args().pop('home_team')
+        team2 = self.reqparse.parse_args().pop('away_team')
         args = self.reqparse.parse_args()
         try:
             cursor = mysql.connection.cursor()
-            rs = cursor.execute("SELECT team_id from team where team_name=%s", (team1['Team Name'], ))
+            rs = cursor.execute("SELECT team_id from team where team_name=%s", (team1['team_name'],))
             if rs > 0:
                 team1_id = cursor.fetchall()[0][0]
-            rs = cursor.execute("SELECT team_id from team where team_name=%s", (team2['Team Name'],))
+            rs = cursor.execute("SELECT team_id from team where team_name=%s", (team2['team_name'],))
             if rs > 0:
                 team2_id = cursor.fetchall()[0][0]
-            rs = cursor.execute("SELECT team_id from team where team_name=%s", (args['Winner'],))
+            rs = cursor.execute("SELECT team_id from team where team_name=%s", (args['winner'],))
             if rs > 0:
                 winner_id = cursor.fetchall()[0][0]
             rs = cursor.execute("""SELECT AUTO_INCREMENT from information_schema.TABLES where
@@ -62,19 +62,46 @@ class AddMatch(Resource):
             if rs > 0:
                 match_id = cursor.fetchall()[0][0]
             cursor.execute("""INSERT INTO matches values(%s, %s, %s, %s, %s, %s)""",
-                           (match_id, team1_id, team2_id, winner_id, args['Man of the Match'], args['Date']))
+                           (match_id, team1_id, team2_id, winner_id, args['man_of_the_match'], args['date']))
             mysql.connection.commit()
             cursor.execute("INSERT INTO match_details values(%s, %s, %s, %s, %s, %s, %s)",
-                           (match_id, team1_id, team1['Fours'], team1['Sixes'], team1['Wickets'],
-                            team1['Score'], team1['isFirstInnings']))
+                           (match_id, team1_id, team1['fours'], team1['sixes'], team1['wickets'],
+                            team1['score'], team1['isFirstInnings']))
             mysql.connection.commit()
             cursor.execute("INSERT INTO match_details values(%s, %s, %s, %s, %s, %s, %s)",
-                           (match_id, team2_id, team2['Fours'], team2['Sixes'], team2['Wickets'],
-                            team2['Score'], team2['isFirstInnings']))
+                           (match_id, team2_id, team2['fours'], team2['sixes'], team2['wickets'],
+                            team2['score'], team2['isFirstInnings']))
             mysql.connection.commit()
             return {"status": "Inserted Match Successfully"}, 201
         except Exception as e:
             return {"error": e.__str__()}, 500
+        finally:
+            cursor.close()
+
+
+class GetAllTeams(Resource):
+    def get(self):
+        try:
+            team_list = []
+            objects = {}
+            cursor = mysql.connection.cursor()
+            rs = cursor.execute("SELECT * FROM team")
+            if rs > 0:
+                teams = cursor.fetchall()
+            for team in teams:
+                objects['team_name'] = team[1]
+                objects['coach_name'] = team[2]
+                objects['captain_name'] = team[3]
+                team_list.append(objects)
+                objects = {}
+            print(team_list)
+            return {
+                       'team_list': team_list
+                   }, 200
+        except Exception as e:
+            return {
+                'error': e.__str__()
+            }
         finally:
             cursor.close()
 
@@ -134,11 +161,11 @@ class GetAllMatches(Resource):
                         message = f"Team {winner_team[0][0]} won by {10 - team1['wickets']} wickets."
                     else:
                         message = f"Team {winner_team[0][0]} won by {difference} runs."
-                objects["Match ID"] = matches[i][0]
-                objects["Home Team"] = home_team[0][0]
-                objects["Away Team"] = away_team[0][0]
-                objects["Winner Team"] = winner_team[0][0]
-                objects["Winning score/wicket"] = message
+                objects["match_id"] = matches[i][0]
+                objects["home_team"] = home_team[0][0]
+                objects["away_team"] = away_team[0][0]
+                objects["winner"] = winner_team[0][0]
+                objects["message"] = message
                 all_matches.append(objects)
                 objects = {}
             return all_matches, 200
@@ -168,10 +195,10 @@ class GetMatch(Resource):
             man_of_the_match = match[0][4]
             date_played = match[0][5]
             return {
-                       'Match ID': match_id,
-                       'Winner Team': winner_team,
-                       'Man Of The Match': man_of_the_match,
-                       'Date of Match': str(date_played),
+                       'match_id': match_id,
+                       'winner': winner_team,
+                       'man_of_the_match': man_of_the_match,
+                       'date': str(date_played),
                        'team1': team1,
                        'team2': team2
                    }, 200
@@ -193,18 +220,21 @@ def get_team_detail(data, match_id):
                         where team_id=%s and match_id=%s""", (data[0][0], match_id))
         if rs > 0:
             data = cursor.fetchall()
-        rs = cursor.execute("SELECT team_name from team where team_id=%s", (data[0][1], ))
+        rs = cursor.execute("SELECT team_name, captain_name, coach_name from team where team_id=%s", (data[0][1],))
         if rs > 0:
-            team_name = cursor.fetchall()[0][0]
-        team = {'Team ID': data[0][1],
-                'Team Name': team_name,
-                'Coach Name': data[0][2],
-                'Captain Name': data[0][3],
-                'Matches Played': matches_played,
-                'Number of Fours': data[0][2],
-                'Number of Sixes': data[0][3],
-                'Number of Wickets Lost': data[0][4],
-                'Score': data[0][5]
+            team_data = cursor.fetchall()
+            team_name = team_data[0][0]
+            captain_name = team_data[0][1]
+            coach_name = team_data[0][2]
+        team = {'team_id': data[0][1],
+                'team_name': team_name,
+                'coach_name': coach_name,
+                'captain_name': captain_name,
+                'matches_played': matches_played,
+                'fours': data[0][2],
+                'sixes': data[0][3],
+                'wickets': data[0][4],
+                'score': data[0][5]
                 }
         return team
     except Exception as e:
@@ -219,3 +249,4 @@ api.add_resource(GetAllMatches, "/getallmatches/")
 api.add_resource(GetMatch, "/getmatch/<int:id>/")
 api.add_resource(AddTeam, '/addteam/')
 api.add_resource(AddMatch, '/addmatch/')
+api.add_resource(GetAllTeams, '/getteams/')
