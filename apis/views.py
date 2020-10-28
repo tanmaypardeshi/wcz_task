@@ -2,6 +2,7 @@ from apis import api, mysql
 from flask_restful import Resource, reqparse
 
 
+# ADD A NEW TEAM API. ENDPOINT - http://localhost:5000/addteam/
 class AddTeam(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
@@ -26,6 +27,8 @@ class AddTeam(Resource):
         finally:
             cursor.close()
 
+
+# API TO ADD A NEW MATCH TO THE DATABASE. ENDPOINT - http://localhost:5000/addmatch/
 
 class AddMatch(Resource):
     def __init__(self):
@@ -79,6 +82,8 @@ class AddMatch(Resource):
             cursor.close()
 
 
+# API TO GET ALL TEAMS FROM THE DATABASE. ENDPOINT - http://localhost:5000/getteams/
+
 class GetAllTeams(Resource):
     def get(self):
         try:
@@ -94,7 +99,6 @@ class GetAllTeams(Resource):
                 objects['captain_name'] = team[3]
                 team_list.append(objects)
                 objects = {}
-            print(team_list)
             return {
                        'team_list': team_list
                    }, 200
@@ -105,6 +109,8 @@ class GetAllTeams(Resource):
         finally:
             cursor.close()
 
+
+# API TO GET ALL MATCHES FROM THE DATABASE. ENDPOINT - http://localhost:5000/getallmatches/
 
 class GetAllMatches(Resource):
     def get(self):
@@ -173,6 +179,8 @@ class GetAllMatches(Resource):
             return {"error": e.__str__()}, 500
         finally:
             cursor.close()
+
+# API TO GET A SINGLE MATCH FROM THE DATABASE. ENDPOINT - http://localhost:5000/getmatch/<int:id>/
 
 
 class GetMatch(Resource):
