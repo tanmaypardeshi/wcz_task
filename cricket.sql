@@ -95,7 +95,7 @@ CREATE TABLE `team` (
   `captain_name` varchar(30) NOT NULL,
   PRIMARY KEY (`team_id`),
   UNIQUE KEY `unique_team_name` (`team_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `team` (
 
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
-INSERT INTO `team` VALUES (1,'India','Woorkeri Raman','Mithali Raj'),(2,'Australia','Mathew Mott','Meg Lanning'),(3,'England','Mark Lane','Heather Knight'),(4,'Sri Lanka','Lanka de Silva','Chamari Atapattu'),(5,'Bangladesh','Anju Jain','Salma Khatun'),(6,'New Zealand','Robert Carter','Sophie Devine'),(7,'Pakistan','David Hemp','Bismah Maroof'),(8,'South Africa','Hilton Moreeng','Dane van Niekerk'),(9,'West Indies','Courtney Walsh','Stafanie Taylor'),(10,'Ireland','Ed Joyce','Laura Delany');
+INSERT INTO `team` VALUES (1,'India','Woorkeri Raman','Mithali Raj'),(2,'Australia','Mathew Mott','Meg Lanning'),(3,'England','Mark Lane','Heather Knight'),(4,'Sri Lanka','Lanka de Silva','Chamari Atapattu'),(5,'Bangladesh','Anju Jain','Salma Khatun'),(6,'New Zealand','Robert Carter','Sophie Devine'),(7,'Pakistan','David Hemp','Bismah Maroof'),(8,'South Africa','Hilton Moreeng','Dane van Niekerk'),(9,'West Indies','Courtney Walsh','Stafanie Taylor'),(10,'Ireland','Ed Joyce','Laura Delany'),(15,'Canada','George Codrington','Suthershini Sivanantham'),(21,'Zimbwambe','Zoe Goss','Mary-Anne Musonda');
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -117,4 +117,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-28 11:08:30
+-- Dump completed on 2020-10-28 16:21:28
