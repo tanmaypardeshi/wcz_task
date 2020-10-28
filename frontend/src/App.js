@@ -6,16 +6,17 @@ import AllMatches from './components/AllMatches';
 import SingleMatch from './components/SingleMatch';
 import AddTeam from './components/AddTeam';
 import AddMatch from './components/AddMatch'
+import { colors } from '@material-ui/core';
 
 
 const theme = createMuiTheme({
 	palette: {
     type: 'dark',
     primary: {
-        main: '#2b2d2f',
+        main: colors.blue[200],
     },
     secondary: {
-        main: '#d3d3d3',
+        main: colors.teal[200],
     },
   },
 });

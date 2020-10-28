@@ -32,7 +32,7 @@ const AddMatch = () => {
         'sixes': 0,
         'wickets': 0,
         "score": 0,
-        "isFirstInnings": true
+        "isFirstInnings": false
     });
 
     const [away_team, setAwayTeam] = useState({
@@ -51,6 +51,7 @@ const AddMatch = () => {
     });
 
     const handleChange = (event) => {
+        // console.log(event.target.id, event.target.value)
         if(event.target.id === 'winner') {
             setData({...data, [event.target.id] : event.target.value});
         }
@@ -61,39 +62,39 @@ const AddMatch = () => {
             setData({...data, [event.target.id]: event.target.value});
         }
         if(event.target.id === 'home_team_name') {
-            setHomeTeam({...home_team, 'team_name': event.target.value})
+            setHomeTeam({...home_team, team_name: event.target.value})
         }
         if(event.target.id === 'home_fours'){
-            setHomeTeam({...home_team, 'fours': event.target.value})
+            setHomeTeam({...home_team, fours: event.target.value})
         }
         if(event.target.id === 'home_sixes'){
-            setHomeTeam({...home_team, 'sixes': event.target.value})
+            setHomeTeam({...home_team, sixes: event.target.value})
         }
         if(event.target.id === 'home_wickets'){
-            setHomeTeam({...home_team, 'wickets': event.target.value})
+            setHomeTeam({...home_team, wickets: event.target.value})
         }
         if(event.target.id === 'home_score'){
-            setHomeTeam({...home_team, 'score': event.target.value})
+            setHomeTeam({...home_team, score: event.target.value})
         }
         if(event.target.id === 'away_team_name') {
-            setHomeTeam({...away_team, 'team_name': event.target.value})
+            setAwayTeam({...away_team, team_name: event.target.value})
         }
         if(event.target.id === 'away_fours'){
-            setHomeTeam({...away_team, 'fours': event.target.value})
+            setAwayTeam({...away_team, fours: event.target.value})
         }
         if(event.target.id === 'away_sixes'){
-            setHomeTeam({...away_team, 'sixes': event.target.value})
+            setAwayTeam({...away_team, sixes: event.target.value})
         }
         if(event.target.id === 'away_wickets'){
-            setHomeTeam({...away_team, 'wickets': event.target.value})
+            setAwayTeam({...away_team, wickets: event.target.value})
         }
         if(event.target.id === 'away_score'){
-            setHomeTeam({...away_team, 'score': event.target.value})
+            setAwayTeam({...away_team, score: event.target.value})
         }
         if(event.target.id === 'isFirstInnings') {
             setToggle(!toggle);
-            setHomeTeam({...home_team, 'isFirstInnings': !toggle})
-            setAwayTeam({...away_team, 'isFirstInnings': toggle})
+            setHomeTeam({...home_team, isFirstInnings: !toggle})
+            setAwayTeam({...away_team, isFirstInnings: toggle})
         }
     }
 
