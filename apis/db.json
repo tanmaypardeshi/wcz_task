@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "user": "root",
-  "password": "java1234!",
-  "db": "cricket"
+  "user": "",
+  "password": "",
+  "db": ""
 }
