@@ -74,7 +74,7 @@ const AddTeam = () => {
         <Container component="main" maxWidth="md">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Typography variant="h1">
             Add a team
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
