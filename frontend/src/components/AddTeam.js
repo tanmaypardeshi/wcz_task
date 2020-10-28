@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, CssBaseline, TextField, Grid, Typography, Container } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Button, CssBaseline, TextField, Grid, Typography, Container, Table, TableHead, TableRow, TableCell, Paper, TableBody, TableContainer} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
@@ -26,7 +26,9 @@ const AddTeam = () => {
         "captain_name": "",
         "coach_name": ""
     });
+    const [teams, setTeams] = useState([]);
 
+    
     const handleChange = (event) => {
         setData({...data, [event.target.id]: event.target.value});
     }
@@ -52,8 +54,24 @@ const AddTeam = () => {
         })
     }
 
+    useEffect(() =>{
+        axios({
+            method:'GET',
+            headers :{
+                "Content-Type": "application/json"  
+            },
+            url:'/getteams',
+        })
+        .then(response => {
+            setTeams(response.data.team_list);
+        })
+        .catch(error => {
+            window.alert(error);
+        })
+    }, [teams])
+
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="md">
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
@@ -110,6 +128,38 @@ const AddTeam = () => {
             </Button>
             </form>
         </div>
+        <br/>
+        <Typography variant="h3" align="center">
+            All teams in the database
+        </Typography>
+        <TableContainer component={Paper} style={{
+                marginTop: '2%',
+            }}>
+                <Table aria-label='simple_table'>
+                    <TableHead style={{backgroundColor:'black'}}>
+                        <TableRow>
+                            <TableCell align="center">Team Number</TableCell>
+                            <TableCell align="center">Team Name</TableCell>
+                            <TableCell align="center">Captain Name</TableCell>
+                            <TableCell align="center">Coach Name</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            teams.map((team, index) => {
+                                return (
+                                    <TableRow key={index}>
+                                        <TableCell align="center">{index+1}</TableCell>
+                                        <TableCell align="center">{team.team_name}</TableCell>
+                                        <TableCell align="center">{team.captain_name}</TableCell>
+                                        <TableCell align="center">{team.coach_name}</TableCell>
+                                    </TableRow>
+                                );
+                            })
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
       </Container>
     )
 }
