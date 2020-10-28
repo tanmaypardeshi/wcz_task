@@ -47,6 +47,7 @@ const AllMatches = () => {
                             <TableCell align="center">Away Team</TableCell>
                             <TableCell align="center">Winner Team</TableCell>
                             <TableCell align="center">Win Margin</TableCell>
+                            <TableCell align="center">Date Played</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -67,6 +68,7 @@ const AllMatches = () => {
                                         <TableCell align="center">{match.away_team}</TableCell>
                                         <TableCell align="center">{match.winner}</TableCell>
                                         <TableCell align="center">{match.message}</TableCell>
+                                        <TableCell align="center">{match.date_played}</TableCell>
                                     </TableRow>
                                 );
                             })

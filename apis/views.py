@@ -21,8 +21,10 @@ class AddTeam(Resource):
             cursor.execute("INSERT INTO team(team_name, coach_name, captain_name) values(%s, %s, %s  )",
                            (args['team_name'], args['coach_name'], args['captain_name']))
             mysql.connection.commit()
+            cursor.close()
             return {'status': 'Inserted data successfully'}, 201
         except Exception as e:
+            cursor.close()
             return {'error': e.__str__()}, 500
         finally:
             cursor.close()
@@ -60,13 +62,14 @@ class AddMatch(Resource):
             rs = cursor.execute("SELECT team_id from team where team_name=%s", (args['winner'],))
             if rs > 0:
                 winner_id = cursor.fetchall()[0][0]
-            rs = cursor.execute("""SELECT AUTO_INCREMENT from information_schema.TABLES where
-                                table_schema=%s and table_name=%s""", ('cricket', 'matches'))
+            cursor.execute("""INSERT INTO matches(home_team, away_team, winner_team, man_of_the_match,
+            date_played) values(%s, %s, %s, %s, %s)""", (team1_id, team2_id, winner_id,
+                                                         args['man_of_the_match'], args['date']))
+            mysql.connection.commit()
+            rs = cursor.execute("SELECT LAST_INSERT_ID()")
             if rs > 0:
                 match_id = cursor.fetchall()[0][0]
-            cursor.execute("""INSERT INTO matches values(%s, %s, %s, %s, %s, %s)""",
-                           (match_id, team1_id, team2_id, winner_id, args['man_of_the_match'], args['date']))
-            mysql.connection.commit()
+            print(match_id)
             cursor.execute("INSERT INTO match_details values(%s, %s, %s, %s, %s, %s, %s)",
                            (match_id, team1_id, team1['fours'], team1['sixes'], team1['wickets'],
                             team1['score'], team1['isFirstInnings']))
@@ -75,8 +78,10 @@ class AddMatch(Resource):
                            (match_id, team2_id, team2['fours'], team2['sixes'], team2['wickets'],
                             team2['score'], team2['isFirstInnings']))
             mysql.connection.commit()
+            cursor.close()
             return {"status": "Inserted Match Successfully"}, 201
         except Exception as e:
+            cursor.close()
             return {"error": e.__str__()}, 500
         finally:
             cursor.close()
@@ -99,10 +104,12 @@ class GetAllTeams(Resource):
                 objects['captain_name'] = team[3]
                 team_list.append(objects)
                 objects = {}
+            cursor.close()
             return {
                        'team_list': team_list
                    }, 200
         except Exception as e:
+            cursor.close()
             return {
                 'error': e.__str__()
             }
@@ -172,13 +179,17 @@ class GetAllMatches(Resource):
                 objects["away_team"] = away_team[0][0]
                 objects["winner"] = winner_team[0][0]
                 objects["message"] = message
+                objects["date_played"] = str(matches[i][5])
                 all_matches.append(objects)
                 objects = {}
+            cursor.close()
             return all_matches, 200
         except Exception as e:
+            cursor.close()
             return {"error": e.__str__()}, 500
         finally:
             cursor.close()
+
 
 # API TO GET A SINGLE MATCH FROM THE DATABASE. ENDPOINT - http://localhost:5000/getmatch/<int:id>/
 
@@ -202,6 +213,7 @@ class GetMatch(Resource):
                 winner_team = cursor.fetchall()[0][0]
             man_of_the_match = match[0][4]
             date_played = match[0][5]
+            cursor.close()
             return {
                        'match_id': match_id,
                        'winner': winner_team,
@@ -210,7 +222,9 @@ class GetMatch(Resource):
                        'team1': team1,
                        'team2': team2
                    }, 200
+
         except Exception as e:
+            cursor.close()
             return {
                        "error": e.__str__()
                    }, 500
@@ -244,8 +258,10 @@ def get_team_detail(data, match_id):
                 'wickets': data[0][4],
                 'score': data[0][5]
                 }
+        cursor.close()
         return team
     except Exception as e:
+        cursor.close()
         return {
             "error": e.__str__()
         }

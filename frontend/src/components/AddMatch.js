@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, CssBaseline, TextField, Grid, Typography, Container, FormControlLabel, Checkbox} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -100,9 +100,26 @@ const AddMatch = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(home_team);
-        console.log(away_team);
-        console.log(data);
+        axios({
+            method: 'POST',
+            headers : {
+                "Content-Type": "application/json"
+            },
+            url: '/addmatch/',
+            data : {
+                "winner": data.winner,
+                "date" : data.date,
+                "man_of_the_match": data.man_of_the_match,
+                "home_team" : home_team,
+                "away_team": away_team
+            }
+        })
+        .then(response => {
+            window.alert('Successfully Added Match');
+        })
+        .catch(error => {
+            window.alert(error);
+        })
     }
 
     return (
