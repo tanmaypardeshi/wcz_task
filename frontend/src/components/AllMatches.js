@@ -1,6 +1,6 @@
-import { Container, TableCell, TableContainer, TableHead, TableBody, TableRow, Paper, Table, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Container, TableCell, TableContainer, TableHead, TableBody, TableRow, Paper, Table, Typography, Link } from '@material-ui/core';
+import { Link as RDRLINK } from 'react-router-dom';
 import axios from 'axios';
 
 const AllMatches = () => {
@@ -31,9 +31,7 @@ const AllMatches = () => {
             }}>
                 Details of All Matches
             </Typography>
-            <Typography variant="h5" style={{
-                marginTop:'1%'
-            }}>
+            <Typography variant="h4" style={{marginTop:'1%'}}>
                 NOTE: Click on the Match ID to see match details
             </Typography>
             <TableContainer component={Paper} style={{
@@ -56,11 +54,7 @@ const AllMatches = () => {
                                 return (
                                     <TableRow key={match.match_id}>
                                         <TableCell align="center">
-                                            <Link to={`/match/${match.match_id}`}
-                                            style={{
-                                                textDecoration:'none',
-                                                color:'white'
-                                            }}>
+                                            <Link component={RDRLINK} to={`/match/${match.match_id}`}>
                                             {match.match_id}
                                             </Link>
                                         </TableCell>
