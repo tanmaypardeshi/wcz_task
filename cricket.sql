@@ -43,7 +43,7 @@ CREATE TABLE `match_details` (
 
 LOCK TABLES `match_details` WRITE;
 /*!40000 ALTER TABLE `match_details` DISABLE KEYS */;
-INSERT INTO `match_details` VALUES (1,1,5,3,6,250,1),(1,3,4,4,10,138,0),(2,2,8,7,3,144,0),(2,8,6,7,10,140,1);
+INSERT INTO `match_details` VALUES (1,1,5,3,6,250,1),(1,3,4,4,10,138,0),(2,2,8,7,3,144,0),(2,8,6,7,10,140,1),(3,1,8,4,4,246,0),(3,5,6,2,8,240,1);
 /*!40000 ALTER TABLE `match_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +68,7 @@ CREATE TABLE `matches` (
   CONSTRAINT `matches_ibfk_1` FOREIGN KEY (`home_team`) REFERENCES `team` (`team_id`) ON DELETE CASCADE,
   CONSTRAINT `matches_ibfk_2` FOREIGN KEY (`away_team`) REFERENCES `team` (`team_id`) ON DELETE CASCADE,
   CONSTRAINT `matches_ibfk_3` FOREIGN KEY (`winner_team`) REFERENCES `team` (`team_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `matches` (
 
 LOCK TABLES `matches` WRITE;
 /*!40000 ALTER TABLE `matches` DISABLE KEYS */;
-INSERT INTO `matches` VALUES (1,1,3,1,'Mithali Raj','2020-10-25'),(2,8,2,2,'Dane van Niekerk','2020-10-23');
+INSERT INTO `matches` VALUES (1,1,3,1,'Mithali Raj','2020-10-25'),(2,8,2,2,'Dane van Niekerk','2020-10-23'),(3,1,5,1,'Smriti Mandhana','2020-09-25');
 /*!40000 ALTER TABLE `matches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,4 +117,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-28  1:17:21
+-- Dump completed on 2020-10-28 11:08:30
