@@ -93,8 +93,9 @@ CREATE TABLE `team` (
   `team_name` varchar(40) NOT NULL,
   `coach_name` varchar(30) NOT NULL,
   `captain_name` varchar(30) NOT NULL,
-  PRIMARY KEY (`team_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`team_id`),
+  UNIQUE KEY `unique_team_name` (`team_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,4 +117,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-27 23:06:00
+-- Dump completed on 2020-10-28  1:17:21
