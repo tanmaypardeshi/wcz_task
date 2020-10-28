@@ -110,7 +110,7 @@ mysql -u root -p cricket < cricket.sql
         }
     ]
             
-### 4. Get a match from the database: ENDPOINT - http://localhost:5000/getmatch/\<id\>/
+### 4. Get a match from the database: ENDPOINT - http://localhost:5000/getmatch/<id\>/
 
     Response of the GET request will be of the format - 
     {
