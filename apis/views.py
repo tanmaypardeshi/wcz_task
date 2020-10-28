@@ -69,7 +69,6 @@ class AddMatch(Resource):
             rs = cursor.execute("SELECT LAST_INSERT_ID()")
             if rs > 0:
                 match_id = cursor.fetchall()[0][0]
-            print(match_id)
             cursor.execute("INSERT INTO match_details values(%s, %s, %s, %s, %s, %s, %s)",
                            (match_id, team1_id, team1['fours'], team1['sixes'], team1['wickets'],
                             team1['score'], team1['isFirstInnings']))

@@ -43,7 +43,7 @@ CREATE TABLE `match_details` (
 
 LOCK TABLES `match_details` WRITE;
 /*!40000 ALTER TABLE `match_details` DISABLE KEYS */;
-INSERT INTO `match_details` VALUES (1,1,5,3,6,250,1),(1,3,4,4,10,138,0),(2,2,8,7,3,144,0),(2,8,6,7,10,140,1),(3,1,8,4,4,246,0),(3,5,6,2,8,240,1);
+INSERT INTO `match_details` VALUES (1,1,5,3,6,250,1),(1,3,4,4,10,138,0),(2,2,8,7,3,144,0),(2,8,6,7,10,140,1),(3,1,8,4,4,246,0),(3,5,6,2,8,240,1),(4,7,6,2,8,240,1),(4,8,8,4,4,246,0),(5,7,2,9,9,222,0),(5,9,4,7,7,300,1),(6,4,2,9,9,222,1),(6,6,5,5,2,340,0),(7,10,6,6,8,348,0),(7,15,4,6,10,345,1),(8,3,3,4,10,180,0),(8,7,5,6,7,240,1);
 /*!40000 ALTER TABLE `match_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +68,7 @@ CREATE TABLE `matches` (
   CONSTRAINT `matches_ibfk_1` FOREIGN KEY (`home_team`) REFERENCES `team` (`team_id`) ON DELETE CASCADE,
   CONSTRAINT `matches_ibfk_2` FOREIGN KEY (`away_team`) REFERENCES `team` (`team_id`) ON DELETE CASCADE,
   CONSTRAINT `matches_ibfk_3` FOREIGN KEY (`winner_team`) REFERENCES `team` (`team_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `matches` (
 
 LOCK TABLES `matches` WRITE;
 /*!40000 ALTER TABLE `matches` DISABLE KEYS */;
-INSERT INTO `matches` VALUES (1,1,3,1,'Mithali Raj','2020-10-25'),(2,8,2,2,'Dane van Niekerk','2020-10-23'),(3,1,5,1,'Smriti Mandhana','2020-09-25');
+INSERT INTO `matches` VALUES (1,1,3,1,'Mithali Raj','2020-10-25'),(2,8,2,2,'Dane van Niekerk','2020-10-23'),(3,1,5,1,'Smriti Mandhana','2020-09-25'),(4,8,7,8,'Ayabonga Khaka','2020-09-15'),(5,9,7,9,'Chinelle Henry','2020-10-15'),(6,6,4,6,'Sophie Devine','2020-12-15'),(7,15,10,10,'Kim Garth','2020-08-14'),(8,7,3,7,'Nida Dar','2020-12-06');
 /*!40000 ALTER TABLE `matches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,7 +104,7 @@ CREATE TABLE `team` (
 
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
-INSERT INTO `team` VALUES (1,'India','Woorkeri Raman','Mithali Raj'),(2,'Australia','Mathew Mott','Meg Lanning'),(3,'England','Mark Lane','Heather Knight'),(4,'Sri Lanka','Lanka de Silva','Chamari Atapattu'),(5,'Bangladesh','Anju Jain','Salma Khatun'),(6,'New Zealand','Robert Carter','Sophie Devine'),(7,'Pakistan','David Hemp','Bismah Maroof'),(8,'South Africa','Hilton Moreeng','Dane van Niekerk'),(9,'West Indies','Courtney Walsh','Stafanie Taylor'),(10,'Ireland','Ed Joyce','Laura Delany'),(15,'Canada','George Codrington','Suthershini Sivanantham'),(21,'Zimbwambe','Zoe Goss','Mary-Anne Musonda');
+INSERT INTO `team` VALUES (1,'India','Woorkeri Raman','Mithali Raj'),(2,'Australia','Mathew Mott','Meg Lanning'),(3,'England','Mark Lane','Heather Knight'),(4,'Sri Lanka','Lanka de Silva','Chamari Atapattu'),(5,'Bangladesh','Anju Jain','Salma Khatun'),(6,'New Zealand','Robert Carter','Sophie Devine'),(7,'Pakistan','David Hemp','Bismah Maroof'),(8,'South Africa','Hilton Moreeng','Dane van Niekerk'),(9,'West Indies','Courtney Walsh','Stafanie Taylor'),(10,'Ireland','Ed Joyce','Laura Delany'),(15,'Canada','George Codrington','Suthershini Sivanantham'),(21,'Zimbabwe','Zoe Goss','Mary-Anne Musonda');
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -117,4 +117,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-28 16:21:28
+-- Dump completed on 2020-10-28 19:44:11
